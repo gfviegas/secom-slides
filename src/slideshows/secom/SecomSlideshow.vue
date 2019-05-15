@@ -117,7 +117,7 @@ export default {
       return 5 - Math.abs((x - 3) * Math.ceil(5 / 3))
     },
     async handleNextStep () {
-      const slidesStepQuantum = [0, 3, 3, 2, 1, 3, 0.85]
+      const slidesStepQuantum = [0, 3, 3, 2, 1, 3, 3, 0.85]
 
       await this.nextStep()
       const nextTimeout = SECONDS * slidesStepQuantum[this.currentSlideIndex] * 1000
