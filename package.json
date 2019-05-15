@@ -1,0 +1,71 @@
+{
+  "name": "secom-slides",
+  "version": "0.0.1",
+  "description": "Slides pra SECOM",
+  "author": "gfviegas",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gfviegas/secom-slides.git"
+  },
+  "license": "ISC",
+  "scripts": {
+    "dev": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "animate.css": "^3.7.0",
+    "axios": "^0.18.0",
+    "chart.js": "2.5.0",
+    "eagle.js": "^0.4.1",
+    "highlight.js": "^9.12.0",
+    "moment": "^2.24.0",
+    "vue": "^2.1.10",
+    "vue-image-preloader": "^0.2.8",
+    "vue-moment": "^4.0.0",
+    "vue-router": "^2.2.0",
+    "vue-star-rating": "^1.6.1"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.0.4",
+    "@vue/cli-plugin-eslint": "^3.0.4",
+    "@vue/cli-service": "^3.0.4",
+    "@vue/eslint-config-standard": "^3.0.4",
+    "node-sass": "^4.9.3",
+    "pug": "^2.0.3",
+    "pug-plain-loader": "^1.0.0",
+    "sass-loader": "^7.1.0",
+    "vue-template-compiler": "^2.5.17"
+  },
+  "engines": {
+    "node": ">= 4.0.0",
+    "npm": ">= 3.0.0"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "@vue/standard"
+    ],
+    "rules": {
+      "arrow-parens": 0,
+      "generator-star-spacing": 0
+    },
+    "parserOptions": {
+      "parser": "babel-eslint"
+    }
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ]
+}
