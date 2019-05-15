@@ -61,6 +61,18 @@
             span &nbsp; opiniões emitidas
       p(v-if="!stats") Dados não disponíveis no momento!
 
+    //- MyMobiConf
+    slide(enter='fadeIn' leave='fadeOut')
+      h2.slide-title MyMobiConf
+      .best-activities(v-if="stats")
+        h4 Melhores Atividades
+        .ranking
+          .ranking-item(v-for="(a, index) in stats.atividades")
+            em.number {{index + 1}})
+            strong {{a.nome}}
+            star-rating(:fixed-points="2", :read-only="true", :rating="parseFloat(a.media) || 0", :increment="0.01", :border-width="3", border-color="#000000", active-color="#ffff00")
+      p(v-if="!stats") Dados não disponíveis no momento!
+
     //- Patrocinadores - Silver
     slide(enter='bounceInRight', :steps="silverSupporters.length || 0")
       h2.slide-title Apoio
@@ -97,17 +109,7 @@ export default {
     return {
       intervalHandler: null,
       stats: null,
-      schedule: schedule
-        .map(s => {
-          return {
-            what: s.what,
-            when: this.$moment(s.when, 'DD/MM/YYYY HH:mm'),
-            where: s.where
-          }
-        })
-        .filter(s => s.when.isAfter())
-        .sort((a, b) => a.when.valueOf() - b.when.valueOf()),
-      supporters
+      schedule: null
     }
   },
   methods: {
@@ -119,7 +121,11 @@ export default {
 
       await this.nextStep()
       const nextTimeout = SECONDS * slidesStepQuantum[this.currentSlideIndex] * 1000
-      if (this.currentSlideIndex === 5) this.fetchEventData()
+      if (this.currentSlideIndex === 5) {
+        this.fetchEventData()
+        this.mapSchedule()
+      }
+
       this.intervalHandler = setTimeout(this.handleNextStep, nextTimeout)
     },
     async fetchEventData () {
@@ -128,6 +134,18 @@ export default {
         this.stats = data
       } catch (e) {
       }
+    },
+    async mapSchedule () {
+      this.schedule = schedule
+        .map(s => {
+          return {
+            what: s.what,
+            when: this.$moment(s.when, 'DD/MM/YYYY HH:mm'),
+            where: s.where
+          }
+        })
+        .filter(s => s.when.isAfter())
+        .sort((a, b) => a.when.valueOf() - b.when.valueOf())
     }
   },
   computed: {
@@ -150,6 +168,7 @@ export default {
   },
   async created () {
     this.fetchEventData()
+    this.mapSchedule()
     this.intervalHandler = setTimeout(this.handleNextStep, 3 * SECONDS * 1000)
 
     // Preload de imagens
@@ -194,7 +213,6 @@ export default {
             .rating-title
               font-family: 'EDO'
               font-size: 2rem
-
         .stats-data
           display: flex
           justify-content: space-around
@@ -208,6 +226,30 @@ export default {
                 font-family: 'Calibri'
                 font-weight: bolder
                 font-size: 4rem
+
+        .best-activities
+          h4
+            margin: 0
+            padding-bottom: 1rem
+            text-align: center
+            font-family: 'EDO'
+            border-bottom: 0.4rem dashed darken(white, 30%)
+          .ranking
+            .ranking-item
+              padding: 1rem 0
+              display: flex
+              align-content: center
+              justify-content: space-between
+              align-self: center
+              .number
+                font-family: 'Calibri'
+                align-self: center
+                padding-right: 1rem
+              strong
+                display: flex
+                align-self: center
+                width: 80%
+
         ul.warnings
           height: 100%
           display: flex
@@ -234,6 +276,9 @@ export default {
             @media (min-width: 1600px)
               max-height: 30rem
         .schedule-item
+          font-size: 2rem
+          @media (min-width: 1600px)
+            font-size: 3rem
           p
             margin-top: 0
           &:not(:last-child)
